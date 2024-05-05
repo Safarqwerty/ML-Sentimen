@@ -3,8 +3,8 @@ import joblib
 import time
 
 # define model requirement
-model =  joblib.load(r"D:\Ngoding\ML-Fast\P3ML\tugassentimen\naive_bayes.joblib")
-vectorizer = joblib.load(r"D:\Ngoding\ML-Fast\P3ML\tugassentimen\vectorizer.joblib")
+model =  joblib.load("naive_bayes.joblib")
+vectorizer = joblib.load("vectorizer.joblib")
 
 st.title("Sentimen Analisis tweet opini film")
 st.write("Sentimen Analisis dengan menggunakan dataset twitter")
