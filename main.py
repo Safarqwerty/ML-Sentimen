@@ -6,8 +6,8 @@ import time
 model =  joblib.load(r"D:\Ngoding\ML-Fast\P3ML\tugassentimen\naive_bayes.joblib")
 vectorizer = joblib.load(r"D:\Ngoding\ML-Fast\P3ML\tugassentimen\vectorizer.joblib")
 
-st.title("Sentimen Analisis Twitter Dataset")
-st.write("Sentimen Analisis dengan menggunakan dataset twwitter Pilkada Gubernur DKI Jakarta tahun 2017")
+st.title("Sentimen Analisis tweet opini film")
+st.write("Sentimen Analisis dengan menggunakan dataset twitter")
 
 
 with st.container():
