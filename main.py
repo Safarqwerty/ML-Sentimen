@@ -6,38 +6,45 @@ import time
 model =  joblib.load("naive_bayes.joblib")
 vectorizer = joblib.load("vectorizer.joblib")
 
-st.title("Sentimen Analisis tweet opini film")
-st.write("Sentimen Analisis dengan menggunakan dataset twitter")
+# Menyetel tema Streamlit
+st.set_page_config(page_title="Analisis Sentimen pada Opini Film", layout="wide", initial_sidebar_state="expanded")
 
+# Judul dan deskripsi
+st.title("Analisis Sentimen pada Opini Film")
+st.write("Analisis sentimen pada opini film menggunakan dataset Twitter.")
 
+# Input teks dan tombol prediksi
 with st.container():
-   sentences = st.text_area("Kalimat untuk dianalisis")
-   button = st.button("Prediksi")
+    sentences = st.text_area("Masukkan kalimat untuk dianalisis", height=100)
+    button = st.button("Prediksi")
 
-
+# Tampilan hasil prediksi
 with st.container(border=True):
-   if(button):
-      with st.spinner('Wait for it...'):
+    if button:
+        with st.spinner('Menganalisis...'):
+            # Mengubah kalimat menjadi vektor menggunakan vectorizer
+            vectorized = vectorizer.transform([sentences])
 
-         # st.write(type(sentences))
+            # Memprediksi
+            predicted = model.predict(vectorized)[0]
 
-         # ubah kalimat ke angka menggunakan vectorizer
-         vectorized = vectorizer.transform([sentences])
+            # Menghitung probabilitas
+            probabilities = model.predict_proba(vectorized)[0]
+            probabilities = [f"{round(x*100, 2)}%" for x in probabilities]
 
-         # prediksi
-         predicted = model.predict(vectorized)[0]
+            probability = {
+                "Negatif" : probabilities[0],
+                "Positif" : probabilities[1],
+            }
 
-         # hitung probabilitas
-         probabilities = model.predict_proba(vectorized)[0]
-         probabilities = [f"{round(x*100, 2)}%" for x in probabilities]
+            time.sleep(2)
 
-         probability = {
-            "Negative" : probabilities[0],
-            "Positive" : probabilities[1],
-         }
-         
-         time.sleep(2)
+            # Menampilkan prediksi dan probabilitas
+            st.subheader("Prediksi:")
+            if predicted == "Positif":
+                st.success(predicted)
+            else:
+                st.error(predicted)
 
-         st.write(f"Prediksi : {predicted}")
-         st.write("Probabilitas : ")
-         st.table(probability)
+            st.subheader("Probabilitas:")
+            st.table(probability)
